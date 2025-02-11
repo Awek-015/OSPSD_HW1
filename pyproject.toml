@@ -1,33 +1,50 @@
-[tool.pdm]
-name = "python-project-template"
-version = "0.1.0"
-description = "A Python project template."
-authors = [{name = "Tanmay Anil Rathi",email = "tr2452@nyu.edu"}]
-license = "Apache-2.0"
-
 [project]
-dependencies = []
-dev-dependencies = [
-    "black",
-    "flake8"
+name = "OSPSD_HW1"
+version = "0.1.0"
+description = "A template repository for OSPSD_HW1"
+authors = [{ name = "Your Name", email = "your_email@example.com" }]
+license = { text = "Apache-2.0" }
+dependencies = ["pytest", "mypy", "ruff", "coverage"]
+readme = "README.md"
+
+# Ruff Formatting & Static Analysis Configuration
+[tool.ruff]
+line-length = 120  # Set the maximum line length to 120 characters
+target-version = "py310"  # Target Python version: 3.10
+
+[tool.ruff.lint]
+select = ["ALL"]  # Enable all Ruff linting rules
+ignore = [
+    "S101",    # Allow using `assert` in pytest (commonly used in pytest)
+    "PLR2004", # Allow magic numbers (to simplify test cases)
+    "ANN201",  # Allow missing return type annotations in test functions
+    "D100",    # Ignore missing module docstring
+    "D101",    # Ignore missing class-level docstring
+    "D102",    # Ignore missing function docstring
+    "D103",    # Ignore missing method docstring
+    "D104",    # Ignore missing package docstring
+    "D105",    # Ignore missing magic method docstring
+    "D106",    # Ignore missing public nested class docstring
+    "D107",    # Ignore missing `__init__` method docstring
+    "T201",    # Allow `print()` statements (useful for debugging)
+    "D203",    # Allow no blank line before class docstring (to avoid conflict with D211)
+    "D212",    # Allow multi-line docstring summary to start on the second line (to avoid conflict with D213)
 ]
 
-[tool.flake8]
-max-line-length = 88
-exclude = [
-    '.venv',
-    'build',
-    'dist',
-]
+# Explicit `isort` rules (even though Ruff already includes `isort`)
+[tool.ruff.lint.isort]
+known-first-party = ["OSPSD_HW1"]
+lines-after-imports = 2  # Require 2 blank lines after import statements
 
-[tool.black]
-line-length = 88
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.venv
-  | build
-  | dist
-)/
-'''
+# Mypy Type Checking Configuration
+[tool.mypy]
+python_version = "3.10"
+strict = true  # Enforce strict type checking
+ignore_missing_imports = true  # Ignore type errors in third-party libraries
+disallow_untyped_defs = true   # Ensure all function definitions have explicit type annotations
+warn_return_any = true         # Prevent functions from returning `Any` type
+warn_unused_configs = true     # Warn about unused configuration settings
+warn_unreachable = true        # Detect unreachable code
+check_untyped_defs = true      # Check functions even if they do not have type hints
+disallow_any_generics = true   # revent `Any` type in generics (enhancing type safety)
+no_implicit_optional = true    # Disallow implicit `Optional[T]` type inference (require explicit `Optional`)
