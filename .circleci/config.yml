@@ -1,30 +1,71 @@
 # yaml-language-server: $schema=https://circleci.com/schemas/1.0/config.json
 version: 2.1
 
+orbs:
+  python: circleci/python@1.2
+
 jobs:
   test:
     docker:
       - image: python:3.10
     steps:
       - checkout
+
       - run:
           name: Install dependencies
           command: |
             pip install uv
-            uv pip install --system pytest mypy ruff coverage
+            uv pip install --system pytest mypy ruff coverage nose2
+
       - run:
-          name: Run static analysis
-          command: ruff check . && mypy src/
+          name: Run static analysis (ruff & mypy)
+          command: |
+            ruff check .
+            mypy src/
+
       - run:
-          name: Run tests
-          command: coverage run -m pytest
-      - run:
-          name: Generate coverage report
-          command: coverage report -m
+          name: Run unit tests (pytest) and generate test results
+          command: |
+            mkdir -p test-results
+            pytest --junitxml=test-results/results.xml
+
       - store_test_results:
           path: test-results/
+
+      - store_artifacts:
+          path: test-results/
+          destination: test-results
+
+      - run:
+          name: Run code coverage and generate report
+          command: |
+            coverage run -m pytest
+            coverage report -m
+            coverage html -d coverage-report
+
+      - store_artifacts:
+          path: coverage-report/
+          destination: coverage-report
+
+  extra_tests:
+    docker:
+      - image: python:3.10
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: |
+            pip install uv
+            uv pip install --system nose2
+
+      - run:
+          name: Run extra tests with nose2
+          command: |
+            nose2 --with-coverage
 
 workflows:
   test_pipeline:
     jobs:
       - test
+      - extra_tests
