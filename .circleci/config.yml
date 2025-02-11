@@ -1,33 +1,28 @@
 # yaml-language-server: $schema=https://circleci.com/schemas/1.0/config.json
 version: 2.1
 
-orbs:
-  python: circleci/python@1.2
-
 jobs:
   test:
     docker:
-      - image: python:3.10
+      - image: python:3.10  # CircleCI 运行环境
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
             pip install uv
+            uv venv .venv  # 手动创建虚拟环境
+            source .venv/bin/activate
             uv pip install pytest mypy ruff coverage
       - run:
           name: Run static analysis
-          command: ruff check . && mypy src/
+          command: source .venv/bin/activate && ruff check . && mypy src/
       - run:
           name: Run tests
-          command: coverage run -m pytest
+          command: source .venv/bin/activate && coverage run -m pytest
       - run:
           name: Generate coverage report
-          command: coverage report -m
+          command: source .venv/bin/activate && coverage report -m
       - store_test_results:
           path: test-results/
 
-workflows:
-  test_pipeline:
-    jobs:
-      - test
