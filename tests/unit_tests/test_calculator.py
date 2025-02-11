@@ -1,4 +1,3 @@
-import pytest
 from src.calculator import Calculator
 
 def test_addition():

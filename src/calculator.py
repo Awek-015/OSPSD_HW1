@@ -2,13 +2,13 @@ class Calculator:
     """Calculator - Performs basic arithmetic operations."""
 
     @staticmethod
-    def add(a, b):
+    def add(a: int, b: int) -> int:
         return a + b
 
     @staticmethod
-    def subtract(a, b):
+    def subtract(a: int, b: int) -> int:
         return a - b
 
     @staticmethod
-    def multiply(a, b):
+    def multiply(a: int, b: int) -> int:
         return a * b
