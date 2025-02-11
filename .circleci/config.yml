@@ -5,67 +5,99 @@ orbs:
   python: circleci/python@1.2
 
 jobs:
-  test:
+  unit_tests:
     docker:
       - image: python:3.10
     steps:
       - checkout
-
       - run:
           name: Install dependencies
           command: |
             pip install uv
             uv pip install --system pytest mypy ruff coverage nose2
-
       - run:
           name: Run static analysis (ruff & mypy)
           command: |
             ruff check .
             mypy src/
-
       - run:
-          name: Run unit tests (pytest) and generate test results
+          name: Run unit tests
           command: |
-            mkdir -p test-results
-            pytest --junitxml=test-results/results.xml
-
+            mkdir -p test-results/unit_tests
+            pytest tests/unit_tests/ --junitxml=test-results/unit_tests/results.xml
       - store_test_results:
-          path: test-results/
-
+          path: test-results/unit_tests/
       - store_artifacts:
-          path: test-results/
-          destination: test-results
+          path: test-results/unit_tests/
+          destination: test-results/unit_tests
 
-      - run:
-          name: Run code coverage and generate report
-          command: |
-            coverage run -m pytest
-            coverage report -m
-            coverage html -d coverage-report
-
-      - store_artifacts:
-          path: coverage-report/
-          destination: coverage-report
-
-  extra_tests:
+  integration_tests:
     docker:
       - image: python:3.10
     steps:
       - checkout
-
       - run:
           name: Install dependencies
           command: |
             pip install uv
-            uv pip install --system nose2
-
+            uv pip install --system pytest coverage
       - run:
-          name: Run extra tests with nose2
+          name: Run integration tests
           command: |
-            nose2 --with-coverage
+            mkdir -p test-results/integration_tests
+            pytest tests/integration_tests/ --junitxml=test-results/integration_tests/results.xml
+      - store_test_results:
+          path: test-results/integration_tests/
+      - store_artifacts:
+          path: test-results/integration_tests/
+          destination: test-results/integration_tests
+
+  end_to_end_tests:
+    docker:
+      - image: python:3.10
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            pip install uv
+            uv pip install --system pytest coverage
+      - run:
+          name: Run end-to-end tests
+          command: |
+            mkdir -p test-results/end_to_end_tests
+            pytest tests/end_to_end_tests/ --junitxml=test-results/end_to_end_tests/results.xml
+      - store_test_results:
+          path: test-results/end_to_end_tests/
+      - store_artifacts:
+          path: test-results/end_to_end_tests/
+          destination: test-results/end_to_end_tests
+
+  coverage_report:
+    docker:
+      - image: python:3.10
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            pip install uv
+            uv pip install --system pytest coverage
+      - run:
+          name: Run all tests and generate coverage report
+          command: |
+            mkdir -p test-results/coverage_report
+            coverage run -m pytest tests/
+            coverage report -m
+            coverage html -d test-results/coverage_report
+      - store_artifacts:
+          path: test-results/coverage_report/
+          destination: coverage-report
 
 workflows:
   test_pipeline:
     jobs:
-      - test
-      - extra_tests
+      - unit_tests
+      - integration_tests
+      - end_to_end_tests
+      - coverage_report
