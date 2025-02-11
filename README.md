@@ -1,83 +1,167 @@
-# Python Project Template
+# Python Project Template - OSPSD_HW1
 
-## Description
+## Overview
 
-This repository serves as a Python project template, providing a foundation for designing and developing fully equipped projects. It includes configurations for continuous integration, static analysis, code style adherence, and dependency management with PDM.
+This repository serves as a Python project template, providing a structured foundation for developing Python applications. It includes:
+
+- **Continuous Integration & Testing**: Automated tests with **CircleCI**
+- **Static Analysis & Code Formatting**: Uses **Ruff** and **Mypy**
+- **Dependency Management**: Utilizes **PDM**
+- **Comprehensive Testing Framework**: Includes **unit, integration, and end-to-end tests**
+- **Component-based Design**: Implements `Calculator`, `Logger`, and `Notifier`
 
 ## Prerequisites
 
-- Python 3.8 or higher
-- PDM for Python dependency management
+- **Python 3.10 or higher**
+- **PDM** for dependency management
+- **CircleCI** (configured for automated builds & tests)
 
 ## Project Setup
 
 To set up the project environment:
 
-1. Clone the repository:
-   ```
+1. **Clone the repository:**
+   ```sh
    git clone <repository-url>
-   ```
-
-2. Navigate to the project directory:
-   ```
    cd <repository-name>
    ```
 
-3. Install PDM if you haven't already:
-   ```
+2. **Install PDM (if not already installed):**
+   ```sh
    pip install pdm
    ```
 
-4. Initialize the project using PDM (if not already done):
-   ```
-   pdm init
-   ```
-
-5. Install project dependencies:
-   ```
+3. **Install project dependencies:**
+   ```sh
    pdm install
    ```
 
 ## Running the Application
 
 To run the application, use:
-```
+```sh
 pdm run python src/main.py
 ```
 
-Replace `src/main.py` with the path to your Python script.
+Replace `src/main.py` with the relevant script.
 
 ## Testing
 
-To run tests, execute:
-```
+This repository includes **three levels of testing**:
+
+1. **Unit Tests** (test individual components)
+2. **Integration Tests** (test interactions between components)
+3. **End-to-End Tests** (simulate real-world workflows)
+
+Run all tests using:
+```sh
 pdm run pytest
+```
+
+To run tests separately:
+```sh
+pdm run pytest tests/unit_tests
+pdm run pytest tests/integration_tests
+pdm run pytest tests/end_to_end_tests
+```
+
+## Static Analysis & Code Formatting
+
+This repository enforces **strict code quality standards** using:
+- **Ruff**: For linting & auto-formatting
+- **Mypy**: For type checking
+
+Run **Ruff** checks:
+```sh
+pdm run ruff check .
+```
+
+Run **Mypy** type checking:
+```sh
+pdm run mypy src/
+```
+
+## CI/CD Pipeline (CircleCI)
+
+**CircleCI** is configured to:
+- Run **unit, integration, and end-to-end tests**
+- Perform **static analysis** (Ruff, Mypy)
+- Generate **test coverage reports**
+
+To view test results:
+1. Navigate to [CircleCI Dashboard](https://circleci.com/)
+2. Select the latest pipeline run
+3. View the **"Tests" section** (enabled via `store_test_results`)
+4. Download **coverage reports** from the **Artifacts** tab
+
+**Include CircleCI run links in HW submission:**
+- One successful test run
+- One failed test run
+
+## Project Components
+
+This project follows a **modular component-based architecture**.
+
+| Component | Description |
+|-----------|------------|
+| **Calculator** | Performs basic arithmetic operations (add, subtract, multiply, divide) |
+| **Logger** | Records calculations performed by the calculator |
+| **Notifier** | Sends alerts when results exceed a certain threshold |
+
+Each component has:
+- **Unit Tests**
+- **Integration Tests**
+- **End-to-End Tests**
+
+For more details, refer to **[`component.md`](component.md)**.
+
+## Project Structure
+
+```
+OSPSD_HW1/
+│── src/
+│   ├── calculator.py
+│   ├── logger.py
+│   ├── notifier.py
+│── tests/
+│   ├── unit_tests/
+│   │   ├── test_calculator.py
+│   │   ├── test_logger.py
+│   │   ├── test_notifier.py
+│   ├── integration_tests/
+│   │   ├── test_integration_calculator_logger.py
+│   │   ├── test_integration_logger_notifier.py
+│   ├── end_to_end_tests/
+│   │   ├── test_end_to_end.py
+│── .circleci/
+│   ├── config.yml
+│── .github/
+│   ├── pull_request_template.md
+│── README.md
+│── component.md
+│── pyproject.toml
+│── LICENSE
 ```
 
 ## Contributing
 
-Contributions are welcome! We use GitHub to host code, to track issues and feature requests, and to accept pull requests.
+Contributions are welcome! Follow these steps:
 
-### Bug Reports & Feature Requests
+1. **Fork the repository**
+2. **Create a new branch**
+3. **Use GitHub issue templates (`.github/issue_template`)**
+4. **Follow the pull request template (`.github/pull_request_template.md`)**
+5. **Ensure tests pass before submitting PR**
 
-Please use the issue templates provided to report any bugs or file feature requests. Navigate to the `.github/issue_template` directory to access the bug report and feature request templates. This will help us understand and address your concerns more efficiently.
-
-### Pull Requests
-
-Here are some guidelines for submitting pull requests:
-- Navigate to the `.github/pull_request_template` directory and use the pull request template provided for your submissions.
-- Provide a clear summary of what the PR achieves.
-- Explain the motivation behind the changes.
-- Describe any testing that has been done to ensure the changes work as expected.
-
-By contributing, you agree that your contributions will be licensed under the project's license.
+By contributing, you agree to license your code under Apache 2.0.
 
 ## License
 
-This project is licensed under the Apache License 2.0 - see the `LICENSE` file for details.
+This project is licensed under the **Apache License 2.0**. See the `LICENSE` file for details.
 
 ## Additional Information
 
-- This project uses GitHub Actions for continuous integration, which automatically runs tests and checks code formatting with Black.
-- The `.gitignore` file is configured to ignore Python-specific files and directories, such as `__pycache__` and the `venv` directory.
-- For more details on project organization and workflow management, refer to the documentation in the `docs` directory.
+- **`.gitignore`** is configured to exclude unnecessary files (`__pycache__`, `.venv`, etc.)
+- **PDM** manages dependencies through `pyproject.toml`
+- For detailed documentation, see **[`component.md`](component.md)**
+
