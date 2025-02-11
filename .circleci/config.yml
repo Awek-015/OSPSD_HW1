@@ -1,7 +1,5 @@
+# yaml-language-server: $schema=https://circleci.com/schemas/1.0/config.json
 version: 2.1
-
-orbs:
-  python: circleci/python@1.2
 
 jobs:
   test:
@@ -13,7 +11,7 @@ jobs:
           name: Install dependencies
           command: |
             pip install uv
-            uv pip install pytest mypy ruff coverage
+            uv pip install --system pytest mypy ruff coverage
       - run:
           name: Run static analysis
           command: ruff check . && mypy src/
