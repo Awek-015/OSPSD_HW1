@@ -1,5 +1,6 @@
 from src.calculator import Calculator
 
+
 def test_addition():
     assert Calculator.add(2, 3) == 5
     assert Calculator.add(-1, 1) == 0
