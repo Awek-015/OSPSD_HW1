@@ -1,0 +1,28 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@1.2
+
+jobs:
+  build:
+    docker:
+      - image: cimg/python:3.12  # Use the latest Python image
+    steps:
+      - checkout
+      - run:
+          name: Install pytest
+          command: pip install pytest
+      - run:
+          name: Install PDM
+          command: pip install pdm
+      - run:
+          name: Install dependencies
+          command: pdm install
+      - run:
+          name: Run tests
+          command: pdm run pytest tests/
+
+workflows:
+  build_and_test:
+    jobs:
+      - build

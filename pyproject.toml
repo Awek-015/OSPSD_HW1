@@ -1,0 +1,33 @@
+[tool.pdm]
+name = "python-project-template"
+version = "0.1.0"
+description = "A Python project template."
+authors = [{name = "Tanmay Anil Rathi",email = "tr2452@nyu.edu"}]
+license = "Apache-2.0"
+
+[project]
+dependencies = []
+dev-dependencies = [
+    "black",
+    "flake8"
+]
+
+[tool.flake8]
+max-line-length = 88
+exclude = [
+    '.venv',
+    'build',
+    'dist',
+]
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | build
+  | dist
+)/
+'''
