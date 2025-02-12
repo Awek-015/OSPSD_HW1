@@ -1,20 +1,25 @@
 import datetime
+from datetime import timezone
+from pathlib import Path
+from typing import Any
+
 class Logger:
-    def __init__(self, filename="default.log"):
+    def __init__(self, filename: str = "default.log") -> None:
         self.filename = filename
 
-    def log(self, message):
+    def log(self, message: str) -> None:
         """Record a message with a timestamp to a log file."""
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
         log_message = f"{timestamp} - {message}\n"
-        with open(self.filename, 'a') as file:
+        log_file = Path(self.filename)
+        with log_file.open("a") as file:
             file.write(log_message)
 
-    def log_error(self, error):
+    def log_error(self, error: str) -> None:
         """Specifically log errors."""
         self.log(f"Error: {error}")
 
-    def log_calculation(self, operation, a, b, result):
+    def log_calculation(self, operation: str, a: Any, b: Any, result: Any) -> None:
         """Log a calculation and its result."""
         message = f"{operation}({a}, {b}) = {result}"
         self.log(message)
