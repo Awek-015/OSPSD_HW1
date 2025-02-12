@@ -1,6 +1,7 @@
 import unittest
 from src.notifier import Notifier
 
+
 class TestNotifier(unittest.TestCase):
     def test_notification_triggered(self):
         notifier = Notifier(threshold=100)
@@ -12,3 +13,4 @@ class TestNotifier(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
