@@ -1,8 +1,5 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'src')))
 
-from notifier import Notifier  # Import without 'src' in the path
+from src.notifier import Notifier  # Import without 'src' in the path
 
 import unittest
 
