@@ -1,5 +1,6 @@
-from src.notifier import Notifier
 import unittest
+
+from src.notifier import Notifier
 
 
 class TestNotifier(unittest.TestCase):
