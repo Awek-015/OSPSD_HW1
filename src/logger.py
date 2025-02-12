@@ -1,7 +1,6 @@
 import datetime
 from datetime import timezone
 from pathlib import Path
-from typing import Union
 
 
 class Logger:
