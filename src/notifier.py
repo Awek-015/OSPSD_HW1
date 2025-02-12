@@ -9,4 +9,3 @@ class Notifier:
             print(f"ALERT: The result {result} exceeds the threshold {self.threshold}!")
             return True
         return False
-    
