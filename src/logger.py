@@ -20,7 +20,7 @@ class Logger:
         """Specifically log errors."""
         self.log(f"Error: {error}")
 
-    def log_calculation(self, operation: str, a: Union[int, float], b: Union[int, float], result: Union[int, float]) -> None:
+    def log_calculation(self, operation: str, a: float, b: float, result: float) -> None:
         """Log a calculation and its result."""
         message = f"{operation}({a}, {b}) = {result}"
         self.log(message)
