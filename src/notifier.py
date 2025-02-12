@@ -1,5 +1,5 @@
 class Notifier:
-    def __init__(self, threshold: float):
+    def __init__(self, threshold: float) -> None:
         """
         Initializes the Notifier with a threshold value.
 
@@ -7,7 +7,7 @@ class Notifier:
         """
         self.threshold = threshold
 
-    def send_alert(self, result: float):
+    def send_alert(self, result: float) -> bool:
         """
         Sends an alert if the result exceeds the threshold.
 
