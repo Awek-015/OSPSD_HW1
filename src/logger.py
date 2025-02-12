@@ -1,7 +1,8 @@
 import datetime
 from datetime import timezone
 from pathlib import Path
-from typing import Any
+from typing import Union
+
 
 class Logger:
     def __init__(self, filename: str = "default.log") -> None:
@@ -19,7 +20,7 @@ class Logger:
         """Specifically log errors."""
         self.log(f"Error: {error}")
 
-    def log_calculation(self, operation: str, a: Any, b: Any, result: Any) -> None:
+    def log_calculation(self, operation: str, a: Union[int, float], b: Union[int, float], result: Union[int, float]) -> None:
         """Log a calculation and its result."""
         message = f"{operation}({a}, {b}) = {result}"
         self.log(message)

@@ -1,6 +1,8 @@
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 from src.logger import Logger
+
 
 class TestLogger(unittest.TestCase):
     @patch("pathlib.Path.open", new_callable=MagicMock)
