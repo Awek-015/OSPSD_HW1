@@ -13,6 +13,7 @@ This repository serves as a Python project template, providing a structured foun
 
 - **Python 3.10 or higher**
 - **CircleCI** (configured for automated builds & tests)
+- **uv** (for dependency management, recommended)
 
 ## Project Setup
 
@@ -24,9 +25,14 @@ To set up the project environment:
    cd <repository-name>
    ```
 
-2. **Install project dependencies:**
+2. **Install project dependencies using uv (recommended):**
    ```sh
-   pip install -r requirements.txt
+   pip install uv
+   uv pip install --system -r requirements.txt
+   ```
+   **Or using pyproject.toml:**
+    ```sh
+   uv pip install --system
    ```
 
 ## Running the Application
