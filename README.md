@@ -164,6 +164,5 @@ This project is licensed under the **Apache License 2.0**. See the `LICENSE` fil
 ## Additional Information
 
 - **`.gitignore`** is configured to exclude unnecessary files (`__pycache__`, `.venv`, etc.)
-- **PDM** manages dependencies through `pyproject.toml`
 - For detailed documentation, see **[`component.md`](docs/component.md)**
 
