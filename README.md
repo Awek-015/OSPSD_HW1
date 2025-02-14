@@ -6,15 +6,14 @@ This repository serves as a Python project template, providing a structured foun
 
 - **Continuous Integration & Testing**: Automated tests with **CircleCI**
 - **Static Analysis & Code Formatting**: Uses **Ruff** and **Mypy**
-- **Dependency Management**: Utilizes **PDM**
 - **Comprehensive Testing Framework**: Includes **unit, integration, and end-to-end tests**
 - **Component-based Design**: Implements `Calculator`, `Logger`, and `Notifier`
 
 ## Prerequisites
 
 - **Python 3.10 or higher**
-- **PDM** for dependency management
 - **CircleCI** (configured for automated builds & tests)
+- **uv** (for dependency management, recommended)
 
 ## Project Setup
 
@@ -26,21 +25,21 @@ To set up the project environment:
    cd <repository-name>
    ```
 
-2. **Install PDM (if not already installed):**
+2. **Install project dependencies using uv (recommended):**
    ```sh
-   pip install pdm
+   pip install uv
+   uv pip install --system -r requirements.txt
    ```
-
-3. **Install project dependencies:**
-   ```sh
-   pdm install
+   **Or using pyproject.toml:**
+    ```sh
+   uv pip install --system
    ```
 
 ## Running the Application
 
 To run the application, use:
 ```sh
-pdm run python src/main.py
+python src/main.py
 ```
 
 Replace `src/main.py` with the relevant script.
@@ -55,14 +54,14 @@ This repository includes **three levels of testing**:
 
 Run all tests using:
 ```sh
-pdm run pytest
+pytest
 ```
 
 To run tests separately:
 ```sh
-pdm run pytest tests/unit_tests
-pdm run pytest tests/integration_tests
-pdm run pytest tests/end_to_end_tests
+pytest tests/unit_tests
+pytest tests/integration_tests
+pytest tests/end_to_end_tests
 ```
 
 ## Static Analysis & Code Formatting
@@ -73,12 +72,12 @@ This repository enforces **strict code quality standards** using:
 
 Run **Ruff** checks:
 ```sh
-pdm run ruff check .
+ruff check .
 ```
 
 Run **Mypy** type checking:
 ```sh
-pdm run mypy src/
+mypy src/
 ```
 
 ## CI/CD Pipeline (CircleCI)
@@ -104,7 +103,7 @@ This project follows a **modular component-based architecture**.
 
 | Component | Description |
 |-----------|------------|
-| **Calculator** | Performs basic arithmetic operations (add, subtract, multiply, divide) |
+| **Calculator** | Performs basic arithmetic operations (add, subtract, multiply) |
 | **Logger** | Records calculations performed by the calculator |
 | **Notifier** | Sends alerts when results exceed a certain threshold |
 
@@ -140,6 +139,7 @@ OSPSD_HW1/
 │── README.md
 │── component.md
 │── pyproject.toml
+│── requirements.txt
 │── LICENSE
 ```
 
