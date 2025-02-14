@@ -1,4 +1,5 @@
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 from src.calculator import Calculator
 from src.logger import Logger
 
@@ -6,10 +7,12 @@ from src.logger import Logger
 class TestCalculatorLoggerIntegration:
     @patch("pathlib.Path.open", new_callable=MagicMock)
     @patch("datetime.datetime")
-    def test_calculator_operations_logging(self, mock_datetime, mocked_file):
-        """
-        Test that the calculator operations are logged correctly.
-        """
+    def test_calculator_operations_logging(
+            self,
+            mock_datetime: MagicMock,
+            mocked_file: MagicMock,
+    ) -> None:
+        """Test that the calculator operations are logged correctly."""
         # Set the mock to return a fixed datetime to simplify
         mock_datetime.now.return_value.strftime.return_value = "2025-02-11 12:00:00"
 
@@ -31,7 +34,7 @@ class TestCalculatorLoggerIntegration:
         expected_calls = [
             "2025-02-11 12:00:00 - add(5, 3) = 8\n",
             "2025-02-11 12:00:00 - subtract(213, 37) = 176\n",
-            "2025-02-11 12:00:00 - multiply(4, 2) = 8\n"
+            "2025-02-11 12:00:00 - multiply(4, 2) = 8\n",
         ]
         assert handle.write.call_count == 3
         handle.write.assert_any_call(expected_calls[0])

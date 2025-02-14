@@ -1,5 +1,7 @@
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
+
 from src.calculator import Calculator
 from src.logger import Logger
 from src.notifier import Notifier
@@ -8,12 +10,16 @@ from src.notifier import Notifier
 class TestEndToEnd:
     @patch("pathlib.Path.open", new_callable=MagicMock)
     @patch("datetime.datetime")
-    def test_complete_calculation_workflow(self, mock_datetime, mocked_file):
+    def test_complete_calculation_workflow(
+            self,
+            mock_datetime: MagicMock,
+            mocked_file: MagicMock,
+    ) -> None:
         """
         Test the complete calculation, logging, and notification workflow.
-        This test simulates the full scenario of a user using the calculator, the system logging the operations,
+
+        This test simulates the full scenario of a user using the calculator, the system logging the operations.
         """
-        # Set the mock to return a fixed datetime to simplify
         mock_datetime.now.return_value.strftime.return_value = "2025-02-13 15:30:00"
 
         logger = Logger("end_to_end_test.log")
@@ -35,30 +41,38 @@ class TestEndToEnd:
         assert large_result == 15
         assert notification_sent  # Confirm a notification was sent
 
-        # Verify that the log messages
+        # Verify logs
         handle = mocked_file.return_value.__enter__.return_value
         log_calls = handle.write.call_args_list
 
         expected_logs = [
             "2025-02-13 15:30:00 - add(3, 4) = 7\n",
-            "2025-02-13 15:30:00 - multiply(5, 3) = 15\n"
+            "2025-02-13 15:30:00 - multiply(5, 3) = 15\n",
         ]
         assert len(log_calls) == 2
         assert log_calls[0][0][0] == expected_logs[0]
         assert log_calls[1][0][0] == expected_logs[1]
 
-    @pytest.mark.parametrize("operation,a,b,expected,should_notify", [
-        ("add", 5, 3, 8, False),  # addition, result below threshold
-        ("multiply", 6, 2, 12, True),  # multiplication, result exceeds threshold
-        ("subtract", 15, 5, 10, False),  # subtraction, result below threshold
-    ])
+    @pytest.mark.parametrize(
+        ("operation", "a", "b", "expected", "should_notify"),
+        [
+            pytest.param("add", 5, 3, 8, False, id="addition_below_threshold"),
+            pytest.param("multiply", 6, 2, 12, True, id="multiplication_above_threshold"),
+            pytest.param("subtract", 15, 5, 10, False, id="subtraction_at_threshold"),
+        ],
+    )
     @patch("pathlib.Path.open", new_callable=MagicMock)
-    def test_multiple_operations_workflow(
-            self, mocked_file, operation, a, b, expected, should_notify
-    ):
-        """
-        Test the complete workflow of different types of operations.
-        """
+    def test_multiple_operations_workflow(  # noqa: PLR0913
+            self,
+            mocked_file: MagicMock,
+            operation: str,
+            a: int,
+            b: int,
+            expected: int,
+            *,
+            should_notify: bool,
+    ) -> None:
+        # Test the complete workflow of different types of operations.
         logger = Logger("operations_test.log")
         notifier = Notifier(threshold=10)
         result = None
