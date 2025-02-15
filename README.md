@@ -88,7 +88,7 @@ mypy src/
 - Generate **test coverage reports**
 
 To view test results:
-1. Navigate to [CircleCI Dashboard](https://circleci.com/)
+1. Navigate to [CircleCI Dashboard](https://app.circleci.com/pipelines/circleci/mr17jU9wJBnXPo4vt5qdJ/6JUYQ89ZVGTAJke7rhE99X)
 2. Select the latest pipeline run
 3. View the **"Tests" section** (enabled via `store_test_results`)
 4. Download **coverage reports** from the **Artifacts** tab
@@ -112,7 +112,7 @@ Each component has:
 - **Integration Tests**
 - **End-to-End Tests**
 
-For more details, refer to **[`component.md`](component.md)**.
+For more details, refer to **[`component.md`](docs/component.md)**.
 
 ## Project Structure
 
@@ -132,12 +132,14 @@ OSPSD_HW1/
 │   │   ├── test_integration_logger_notifier.py
 │   ├── end_to_end_tests/
 │   │   ├── test_end_to_end.py
+│── docs/
+│   ├── component.md
+│   ├── documentation.md
 │── .circleci/
 │   ├── config.yml
 │── .github/
 │   ├── pull_request_template.md
 │── README.md
-│── component.md
 │── pyproject.toml
 │── requirements.txt
 │── LICENSE
@@ -162,6 +164,5 @@ This project is licensed under the **Apache License 2.0**. See the `LICENSE` fil
 ## Additional Information
 
 - **`.gitignore`** is configured to exclude unnecessary files (`__pycache__`, `.venv`, etc.)
-- **PDM** manages dependencies through `pyproject.toml`
-- For detailed documentation, see **[`component.md`](component.md)**
+- For detailed documentation, see **[`component.md`](docs/component.md)**
 
