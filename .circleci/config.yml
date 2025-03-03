@@ -16,7 +16,7 @@ jobs:
             pip install uv
             uv venv
             . .venv/bin/activate
-            uv pip install pytest pytest-cov mypy ruff coverage nose2
+            uv pip install pytest pytest-cov mypy ruff coverage
             uv pip install -e .
       - run:
           name: Run static analysis (ruff & mypy)
@@ -29,12 +29,18 @@ jobs:
           command: |
             . .venv/bin/activate
             mkdir -p test-results
-            pytest tests/unit_tests/ --junitxml=test-results/unit_tests.xml
+            mkdir -p coverage-unit
+            pytest tests/unit_tests/ --cov=src --junitxml=test-results/unit_tests.xml
+            coverage report -m
+            coverage html -d coverage-unit
       - store_test_results:
           path: test-results
       - store_artifacts:
           path: test-results
           destination: test-results/unit_tests
+      - store_artifacts:
+          path: coverage-unit
+          destination: coverage-unit
 
   integration_tests:
     docker:
@@ -47,19 +53,25 @@ jobs:
             pip install uv
             uv venv
             . .venv/bin/activate
-            uv pip install pytest pytest-cov coverage
+            uv pip install pytest pytest-cov mypy ruff coverage
             uv pip install -e .
       - run:
           name: Run integration tests
           command: |
             . .venv/bin/activate
             mkdir -p test-results
-            pytest tests/integration_tests/ --junitxml=test-results/integration_tests.xml
+            mkdir -p coverage-integration
+            pytest tests/integration_tests/ --cov=src --junitxml=test-results/integration_tests.xml
+            coverage report -m
+            coverage html -d coverage-integration
       - store_test_results:
           path: test-results
       - store_artifacts:
           path: test-results
           destination: test-results/integration_tests
+      - store_artifacts:
+          path: coverage-integration
+          destination: coverage-integration
 
   end_to_end_tests:
     docker:
@@ -72,19 +84,25 @@ jobs:
             pip install uv
             uv venv
             . .venv/bin/activate
-            uv pip install pytest pytest-cov coverage
+            uv pip install pytest pytest-cov mypy ruff coverage
             uv pip install -e .
       - run:
           name: Run end-to-end tests
           command: |
             . .venv/bin/activate
             mkdir -p test-results
-            pytest tests/end_to_end_tests/ --junitxml=test-results/end_to_end_tests.xml
+            mkdir -p coverage-e2e
+            pytest tests/end_to_end_tests/ --cov=src --junitxml=test-results/end_to_end_tests.xml
+            coverage report -m
+            coverage html -d coverage-e2e
       - store_test_results:
           path: test-results
       - store_artifacts:
           path: test-results
           destination: test-results/end_to_end_tests
+      - store_artifacts:
+          path: coverage-e2e
+          destination: coverage-e2e
 
   coverage_report:
     docker:
@@ -97,14 +115,14 @@ jobs:
             pip install uv
             uv venv
             . .venv/bin/activate
-            uv pip install pytest pytest-cov coverage
+            uv pip install pytest pytest-cov mypy ruff coverage
             uv pip install -e .
       - run:
           name: Run all tests and generate coverage report
           command: |
             . .venv/bin/activate
             mkdir -p coverage-report
-            coverage run -m pytest tests/
+            pytest --cov=src tests/
             coverage report -m
             coverage html -d coverage-report
       - store_artifacts:
@@ -117,4 +135,8 @@ workflows:
       - unit_tests
       - integration_tests
       - end_to_end_tests
-      - coverage_report
+      - coverage_report:
+          requires:
+            - unit_tests
+            - integration_tests
+            - end_to_end_tests
