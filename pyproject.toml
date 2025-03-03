@@ -1,50 +1,131 @@
 [project]
-name = "OSPSD_HW1"
-version = "0.1.0"
-description = "A template repository for OSPSD_HW1"
-authors = [{ name = "Your Name", email = "your_email@example.com" }]
-license = { text = "Apache-2.0" }
-dependencies = ["pytest", "mypy", "ruff", "coverage"]
+name = "calculator-logger"
+version = "1.0.0"
+description = "A simple calculator with logging capabilities"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+requires-python = ">=3.8"
 readme = "README.md"
+license = { file = "LICENSE" }
 
-# Ruff Formatting & Static Analysis Configuration
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/calculator", "src/logger", "src/notifier"]
+
+[tool.pytest.ini_options]
+testpaths = ["src", "tests"]
+python_files = ["test_*.py"]
+addopts = "-v --cov=src --cov-report=term-missing"
+
 [tool.ruff]
-line-length = 120  # Set the maximum line length to 120 characters
-target-version = "py310"  # Target Python version: 3.10
+# Enable all rules by default
+line-length = 100
+target-version = "py38"
 
 [tool.ruff.lint]
-select = ["ALL"]  # Enable all Ruff linting rules
+# Enable all rules by default
+select = ["ALL"]
+# Disable specific rules with explanations
 ignore = [
-    "S101",    # Allow using `assert` in pytest (commonly used in pytest)
-    "PLR2004", # Allow magic numbers (to simplify test cases)
-    "ANN201",  # Allow missing return type annotations in test functions
-    "D100",    # Ignore missing module docstring
-    "D101",    # Ignore missing class-level docstring
-    "D102",    # Ignore missing function docstring
-    "D103",    # Ignore missing method docstring
-    "D104",    # Ignore missing package docstring
-    "D105",    # Ignore missing magic method docstring
-    "D106",    # Ignore missing public nested class docstring
-    "D107",    # Ignore missing `__init__` method docstring
-    "T201",    # Allow `print()` statements (useful for debugging)
-    "D203",    # Allow no blank line before class docstring (to avoid conflict with D211)
-    "D212",    # Allow multi-line docstring summary to start on the second line (to avoid conflict with D213)
+    # D203 and D212 conflict with D213 and D211, respectively
+    "D203",  # 1 blank line required before class docstring (conflicts with D211)
+    "D212",  # Multi-line docstring summary should start at the first line (conflicts with D213)
+    
+    # ANN101 requires type annotations for 'self' which is redundant
+    "ANN101",  # Missing type annotation for `self` in method
+    
+    # FIX002 requires manual intervention for TODOs
+    "FIX002",  # Line contains TODO, consider resolving the issue
+    
+    # PLR0913 limits function parameters, but some of our functions need more parameters
+    "PLR0913",  # Too many arguments to function call
+    
+    # ERA001 found commented out code, but we use comments for documentation
+    "ERA001",  # Found commented-out code
+    
+    # S101 disallows assert statements, but they are common in tests
+    "S101",  # Use of `assert` detected
+    
+    # PLR2004 flags magic numbers in comparisons, but these are common in tests
+    "PLR2004",  # Magic value used in comparison
+    
+    # D100-D107 require docstrings, but we'll handle these selectively
+    "D100",  # Missing docstring in public module
+    "D101",  # Missing docstring in public class
+    "D102",  # Missing docstring in public method
+    "D103",  # Missing docstring in public function
+    "D104",  # Missing docstring in public package
+    
+    # ANN201 requires return type annotations, but many test functions return None implicitly
+    "ANN201",  # Missing return type annotation for public function
+    
+    # COM812 requires trailing commas, but this is stylistic
+    "COM812",  # Trailing comma missing
+    
+    # RUF100 flags unused noqa directives
+    "RUF100",  # Unused `noqa` directive
+    
+    # I001 requires imports to be sorted
+    "I001",  # Import block is un-sorted or un-formatted
+    
+    # RUF022 requires __all__ to be sorted
+    "RUF022",  # `__all__` is not sorted
+    
+    # D205 requires blank line between summary and description in docstrings
+    "D205",  # 1 blank line required between summary line and description
 ]
 
-# Explicit `isort` rules (even though Ruff already includes `isort`)
-[tool.ruff.lint.isort]
-known-first-party = ["OSPSD_HW1"]
-lines-after-imports = 2  # Require 2 blank lines after import statements
+[tool.ruff.lint.per-file-ignores]
+# F401: Module imported but unused - Ignored in __init__.py because imports are used for API exposure
+"__init__.py" = ["F401"]
+# E501: Line too long - Ignored in test files because test names can be descriptive and long
+"test_*.py" = ["E501"]
+# For test files, we can be more lenient with certain rules
+"tests/**/*.py" = [
+    "S101",    # Allow assert in tests
+    "PLR2004", # Allow magic numbers in tests
+    "ANN201",  # Allow missing return type annotations in test functions
+]
 
-# Mypy Type Checking Configuration
+[tool.coverage.run]
+source = ["src"]
+branch = true
+omit = ["*/tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+    "raise ImportError",
+]
+
 [tool.mypy]
-python_version = "3.10"
-strict = true  # Enforce strict type checking
-ignore_missing_imports = true  # Ignore type errors in third-party libraries
-disallow_untyped_defs = true   # Ensure all function definitions have explicit type annotations
-warn_return_any = true         # Prevent functions from returning `Any` type
-warn_unused_configs = true     # Warn about unused configuration settings
-warn_unreachable = true        # Detect unreachable code
-check_untyped_defs = true      # Check functions even if they do not have type hints
-disallow_any_generics = true   # revent `Any` type in generics (enhancing type safety)
-no_implicit_optional = true    # Disallow implicit `Optional[T]` type inference (require explicit `Optional`)
+# Enable all mypy checks
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_untyped_calls = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+# Ignore missing imports for pytest because it's a third-party library
+module = ["pytest.*"]
+ignore_missing_imports = true

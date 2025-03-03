@@ -1,10 +1,15 @@
+"""Logger module for logging operations."""
+
 import datetime
 from datetime import timezone
 from pathlib import Path
 
 
 class Logger:
+    """Logger - Records messages with timestamps."""
+
     def __init__(self, filename: str = "default.log") -> None:
+        """Initialize logger with a filename."""
         self.filename = filename
 
     def log(self, message: str) -> None:
@@ -19,7 +24,9 @@ class Logger:
         """Specifically log errors."""
         self.log(f"Error: {error}")
 
-    def log_calculation(self, operation: str, a: float, b: float, result: float) -> None:
+    def log_calculation(
+        self, operation: str, a: float, b: float, result: float
+    ) -> None:
         """Log a calculation and its result."""
         message = f"{operation}({a}, {b}) = {result}"
         self.log(message)

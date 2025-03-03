@@ -1,137 +1,109 @@
-# 🛠️ Component Documentation
+# Component Definition
 
-This document provides an overview of the key components in the **OSPSD_HW1** project.
+In this project, a component refers to a modular unit with specific functionality and responsibilities, which can be independently developed, tested, and deployed, while also being integrated with other components to build a complete application.
 
----
+## Component Characteristics
 
-## **1⃣ Calculator**
-### **Description**
-The **Calculator** component provides basic arithmetic operations.
+1. **Modularity**: Each component is an independent module with clearly defined boundaries.
+2. **Single Responsibility**: Each component focuses on completing a specific task.
+3. **Testability**: Components are designed to facilitate unit testing, integration testing, and end-to-end testing.
+4. **Reusability**: Components can be reused in different contexts.
+5. **Interface Definition**: Components interact with other components through clearly defined APIs.
 
-### **Features**
-- Addition (`+`)
-- Subtraction (`-`)
-- Multiplication (`*`)
+## Project Components
 
-### **Implementation**
-Located in: `src/calculator.py`
+This project contains the following three core components:
 
-### **Usage Example**
-```python
-from src.calculator import Calculator
+### 1. Calculator
 
-calc = Calculator()
-result = calc.add(5, 3)  # Returns 8
+**Responsibility**: Perform basic arithmetic operations.
+
+**Functionality**:
+- Addition (add)
+- Subtraction (subtract)
+- Multiplication (multiply)
+
+**API**:
+- `add(a, b)`: Returns a + b
+- `subtract(a, b)`: Returns a - b
+- `multiply(a, b)`: Returns a * b
+
+### 2. Logger
+
+**Responsibility**: Record operations performed by the calculator.
+
+**Functionality**:
+- Create log files
+- Record calculation operations and their results
+- Record error messages
+
+**API**:
+- `create_logger(log_file)`: Create a logger instance
+- `log_calculation(operation, a, b, result)`: Record a calculation operation
+- `log_error(message)`: Record an error message
+
+### 3. Notifier
+
+**Responsibility**: Send notifications when calculation results exceed a specified threshold.
+
+**Functionality**:
+- Check if results exceed the threshold
+- Send notifications
+
+**API**:
+- `create_notifier(threshold)`: Create a notifier instance
+- `send_alert(value)`: Check if the value exceeds the threshold and send a notification
+
+## Component Interaction
+
+These three components can work together:
+
+1. Calculator performs calculation operations
+2. Logger records calculation operations and results
+3. Notifier sends notifications when results exceed the threshold
+
+Interactions between components occur through clearly defined APIs, which allows components to be independently developed and tested, while also being integrated into a complete system.
+
+## Directory Structure
+
+Each component is organized in its own subdirectory within the `src` folder:
+
+```
+src/
+├── calculator/
+│   ├── __init__.py
+│   ├── api.py
+│   ├── calculator.py
+│   └── tests/
+│       ├── __init__.py
+│       └── test_calculator.py
+├── logger/
+│   ├── __init__.py
+│   ├── api.py
+│   ├── logger.py
+│   └── tests/
+│       ├── __init__.py
+│       └── test_logger.py
+└── notifier/
+    ├── __init__.py
+    ├── api.py
+    ├── notifier.py
+    └── tests/
+        ├── __init__.py
+        └── test_notifier.py
 ```
 
-### **Methods**
-| Method        | Description                | Example |
-|--------------|----------------------------|---------|
-| `add(a, b)`  | Returns `a + b`            | `calc.add(3, 2) -> 5` |
-| `subtract(a, b)` | Returns `a - b`       | `calc.subtract(3, 2) -> 1` |
-| `multiply(a, b)` | Returns `a * b`       | `calc.multiply(3, 2) -> 6` |
+Integration tests and end-to-end tests are located in the top-level `tests` directory:
 
-### **Unit Tests**
-Tests for `Calculator` are in `tests/unit_tests/test_calculator.py`
-- **Tested Functions:** `add()`, `subtract()`, `multiply()`
-
----
-
-## **2⃣ Logger**
-### **Description**
-The **Logger** component records and stores calculation logs.
-
-### **Features**
-- Log operations performed by the calculator.
-- Log errors in calculation.
-- Retrieve stored logs.
-
-### **Implementation**
-Located in: `src/logger.py`
-
-### **Usage Example**
-```python
-from src.logger import Logger
-
-logger = Logger("calculation.log")
-logger.log_calculation("add", 5, 3, 8)  # Logs: "add(5, 3) = 8"
-logger.log_error("Invalid operation")  # Logs: "Error: Invalid operation"
+```
+tests/
+├── integration_tests/
+│   ├── __init__.py
+│   ├── test_integration_calculator_logger.py
+│   └── test_integration_logger_notifier.py
+└── end_to_end_tests/
+    ├── __init__.py
+    └── test_end_to_end.py
 ```
 
-### **Methods**
-| Method                 | Description                             | Example |
-|------------------------|-----------------------------------------|---------|
-| `log(msg)`            | Logs a custom message                   | `logger.log("Operation completed")` |
-| `log_calculation(op, a, b, result)` | Logs a calculation operation | `logger.log_calculation("add", 5, 3, 8)` |
-| `log_error(msg)`      | Logs an error message                   | `logger.log_error("Critical error")` |
-| `get_logs()`          | Retrieves all logs                      | `logger.get_logs() -> ["5 + 3 = 8"]` |
-
-### **Unit Tests**
-Tests for `Logger` are in `tests/unit_tests/test_logger.py`
-- **Tested Functions:** `log()`, `log_calculation()`, `log_error()`, `get_logs()`
-- Uses `unittest.mock.patch` to mock file I/O operations.
-
----
-
-## **3⃣ Notifier**
-### **Description**
-The **Notifier** component sends alerts when a calculation exceeds a **specified threshold**.
-
-### **Features**
-- Sends an alert if the result is greater than the threshold.
-- Allows modifying the threshold.
-
-### **Implementation**
-Located in: `src/notifier.py`
-
-### **Usage Example**
-```python
-from src.notifier import Notifier
-
-notifier = Notifier(threshold=10)
-notifier.send_alert(15)  # Sends an alert
-```
-
-### **Methods**
-| Method         | Description                         | Example |
-|--------------|---------------------------------|---------|
-| `set_threshold(thresh)` | Updates the threshold value | `notifier.set_threshold(20)` |
-| `send_alert(value)` | Sends an alert if `value > threshold` | `notifier.send_alert(25)` |
-
-### **Unit Tests**
-Tests for `Notifier` are in `tests/unit_tests/test_notifier.py`
-- **Tested Functions:** `set_threshold()`, `send_alert()`
-- Uses `pytest.mark.parametrize` to test multiple cases.
-
----
-
-## **🔗 Integration Tests**
-The integration tests validate interactions between components:
-- **Calculator ➞ Logger** (`tests/integration_tests/test_integration_calculator_logger.py`)
-- **Logger ➞ Notifier** (`tests/integration_tests/test_integration_logger_notifier.py`)
-
----
-
-## **🛠️ End-to-End Test**
-The end-to-end test verifies that:
-1. A calculation is performed.
-2. The result is logged.
-3. A notification is sent if the threshold is exceeded.
-
-Location: `tests/end_to_end_tests/test_end_to_end.py`
-
-### **Workflow**
-```python
-calc = Calculator()
-logger = Logger("end_to_end_test.log")
-notifier = Notifier(threshold=10)
-
-result = calc.add(6, 5)  # 6 + 5 = 11
-logger.log_calculation("add", 6, 5, result)
-notifier.send_alert(result)  # Sends alert (threshold exceeded)
-```
-
-### **Test Strategy**
-- Uses `unittest.mock.patch` to mock file writes.
-- Uses `pytest.mark.parametrize` to test different calculations dynamically.
-
+This structure ensures that each component is self-contained with its own implementation, API, and unit tests, while integration and end-to-end tests verify the interactions between components. 

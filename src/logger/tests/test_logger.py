@@ -1,13 +1,18 @@
+"""Unit tests for Logger component."""
+
 import unittest
 from unittest.mock import MagicMock, patch
 
-from src.logger import create_logger
+from src.logger.api import create_logger
 
 
 class TestLogger(unittest.TestCase):
+    """Test cases for Logger component."""
+
     @patch("pathlib.Path.open", new_callable=MagicMock)
     @patch("datetime.datetime")
     def test_log(self, mock_datetime: MagicMock, mocked_file: MagicMock) -> None:
+        """Test basic logging functionality."""
         # Set the mock to return a fixed datetime
         mock_datetime.now.return_value.strftime.return_value = "2025-02-11 12:00:00"
 
@@ -23,12 +28,14 @@ class TestLogger(unittest.TestCase):
 
     @patch("src.logger.logger.Logger.log")
     def test_log_error(self, mocked_log: MagicMock) -> None:
+        """Test error logging functionality."""
         logger = create_logger()
         logger.log_error("Sample error")
         mocked_log.assert_called_once_with("Error: Sample error")
 
     @patch("src.logger.logger.Logger.log")
     def test_log_calculation(self, mock_log: MagicMock) -> None:
+        """Test calculation logging functionality."""
         logger = create_logger("test.log")
         operation = "add"
         a = 5
@@ -37,7 +44,3 @@ class TestLogger(unittest.TestCase):
         logger.log_calculation(operation, a, b, result)
         expected_message = f"{operation}({a}, {b}) = {result}"
         mock_log.assert_called_with(expected_message)
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -1,29 +1,53 @@
-Here is the documentation for the python template.
+# Python Template Repository Documentation
 
 ### HW1 Technology Template Repository
-Based on the objectives outlined in the assignment, here are the final choices we have made for setting up Python project template repository:
+Based on the assignment requirements, here are the technology choices we made for our Python project template repository:
 
-1. Select a Programming Language:
-   - Choice: Python.
-2. Choose a Toolchain/Runtime Environment:
-   - Choice: Python with a virtual environment using venv initially discussed, but then pivoted to using PDM (Python Dependency Management) for managing dependencies and virtual environments, aligning with the modern Python development practices.
-3. Select a Testing Framework:
-   - Choice: pytest for writing and executing tests.
-4. Continuous Integration Solution:
-   - Choice: CircleCI, configured in .circleci/config.yml for automating tests, static analysis, and code formatting.
-5. Static Analysis Tool:
-   - Choice: flake8 for linting
-6. Code Formatting Solution:
-   - Choice: black for automatic code formatting
-7. Package Manager:
-   - Implemented Python Dependency Management (PDM) for managing project dependencies and environments
-   - The project uses PDM (Python Dependency Management) as the primary tool for managing dependencies. PDM is chosen for its modern approach to dependency management and project configuration in Python projects, utilizing the pyproject.toml file.
-   - Integration with pip: Although PDM is the primary package manager, pip is also utilized within the CircleCI configuration to initially install PDM (pip install pdm). This step is necessary because PDM is not pre-installed in the CircleCI Python environment. Once PDM is installed, it takes over as the package manager for installing project dependencies (pdm install) and managing the project's Python environment.
-8. Use PDM for Python Projects:
-   - We decided to use PDM, emphasizing its benefits for dependency management and integration with the pyproject.toml file for project configuration.
+1. Programming Language:
+   - Choice: Python
+
+2. Interpreter:
+   - Choice: CPython
+
+3. Testing Framework:
+   - Choice: pytest for writing and executing tests
+
+4. Dependency Management:
+   - Choice: uv as a modern Python package management tool
+   - uv provides faster package installation and dependency resolution than pip
+
+5. Code Formatting:
+   - Choice: ruff for code formatting and static analysis
+
+6. Static Analysis Tools:
+   - Choice: mypy for type checking
+   - Choice: ruff for code quality checks
+
+7. Code Coverage:
+   - Choice: coverage.py for test coverage analysis
+
+8. Continuous Integration:
+   - Choice: CircleCI, configured in .circleci/config.yml
+   - Automated testing, static analysis, and code coverage reporting
+
 9. Component Specification:
-   - Implementation: We ensured the template includes a structured approach to organizing the project, with clear definitions and documentation for components such as the src directory for source code and tests directory for test scripts.
-10. Issue and Pull Request Templates:
-    - Setup: Created templates for issues and pull requests within the .github directory to standardize submissions and facilitate clear, structured communication for contributions.
+   - Implementation: The template includes a structured approach to project organization
+   - Source code is divided by components in the src directory
+   - Each component has its own API and tests
+   - Detailed documentation in docs/component.md
 
-We aimed to align with the assignment's objectives while also considering modern best practices in Python development. The use of PDM, in particular, reflects a forward-looking approach to Python project management, balancing the assignment requirements with the evolving landscape of Python tooling.
+10. Issue and Pull Request Templates:
+    - Setup: Created issue and PR templates in the .github directory
+    - Standardized submission process for clear, structured contributions
+
+11. Component Implementation:
+    - Calculator: Performs basic arithmetic operations
+    - Logger: Records operations
+    - Notifier: Sends notifications when results exceed a threshold
+
+12. Test Implementation:
+    - Unit Tests: Test the functionality of individual components
+    - Integration Tests: Test interactions between components
+    - End-to-End Tests: Test complete workflows
+
+Our goal is to meet the assignment requirements while adopting modern best practices in Python development. The use of tools like uv and ruff reflects our forward-looking approach to Python project management, balancing assignment requirements with the evolving Python tooling ecosystem.
