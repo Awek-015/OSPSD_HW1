@@ -3,8 +3,8 @@ Calculator-Logger package.
 This package provides a calculator with logging capabilities.
 """
 
-from src.calculator import Calculator
-from src.logger import Logger
-from src.notifier import Notifier
+from src.calculator import add, multiply, subtract
+from src.logger import create_logger
+from src.notifier import create_notifier
 
-__all__ = ["Calculator", "Logger", "Notifier"]
+__all__ = ["add", "subtract", "multiply", "create_logger", "create_notifier"]

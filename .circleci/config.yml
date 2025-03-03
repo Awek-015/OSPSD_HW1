@@ -13,8 +13,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            pip install pytest pytest-cov mypy ruff coverage nose2
-            pip install -e .
+            pip install uv
+            uv pip install pytest pytest-cov mypy ruff coverage nose2
+            uv pip install -e .
       - run:
           name: Run static analysis (ruff & mypy)
           command: |
@@ -39,8 +40,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            pip install pytest pytest-cov coverage
-            pip install -e .
+            pip install uv
+            uv pip install pytest pytest-cov coverage
+            uv pip install -e .
       - run:
           name: Run integration tests
           command: |
@@ -60,8 +62,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            pip install pytest pytest-cov coverage
-            pip install -e .
+            pip install uv
+            uv pip install pytest pytest-cov coverage
+            uv pip install -e .
       - run:
           name: Run end-to-end tests
           command: |
@@ -81,8 +84,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            pip install pytest pytest-cov coverage
-            pip install -e .
+            pip install uv
+            uv pip install pytest pytest-cov coverage
+            uv pip install -e .
       - run:
           name: Run all tests and generate coverage report
           command: |

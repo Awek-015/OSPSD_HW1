@@ -22,14 +22,37 @@ python_files = ["test_*.py"]
 addopts = "-v --cov=src --cov-report=term-missing"
 
 [tool.ruff]
+# Enable all rules by default
 line-length = 100
+target-version = "py38"
 
 [tool.ruff.lint]
-select = ["E", "F", "B", "I"]
-ignore = []
+# Enable all rules by default
+select = ["ALL"]
+# Disable specific rules with explanations
+ignore = [
+    # D203 and D212 conflict with D213 and D211, respectively
+    "D203",  # 1 blank line required before class docstring (conflicts with D211)
+    "D212",  # Multi-line docstring summary should start at the first line (conflicts with D213)
+    
+    # ANN101 requires type annotations for 'self' which is redundant
+    "ANN101",  # Missing type annotation for `self` in method
+    
+    # FIX002 requires manual intervention for TODOs
+    "FIX002",  # Line contains TODO, consider resolving the issue
+    
+    # PLR0913 limits function parameters, but some of our functions need more parameters
+    "PLR0913",  # Too many arguments to function call
+    
+    # ERA001 found commented out code, but we use comments for documentation
+    "ERA001",  # Found commented-out code
+]
 
 [tool.ruff.lint.per-file-ignores]
+# F401: Module imported but unused - Ignored in __init__.py because imports are used for API exposure
 "__init__.py" = ["F401"]
+# E501: Line too long - Ignored in test files because test names can be descriptive and long
+"test_*.py" = ["E501"]
 
 [tool.coverage.run]
 source = ["src"]
@@ -47,12 +70,24 @@ exclude_lines = [
 ]
 
 [tool.mypy]
+# Enable all mypy checks
 python_version = "3.8"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
 check_untyped_defs = true
+disallow_any_generics = true
+disallow_untyped_calls = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
 
 [[tool.mypy.overrides]]
+# Ignore missing imports for pytest because it's a third-party library
 module = ["pytest.*"]
 ignore_missing_imports = true

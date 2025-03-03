@@ -1,5 +1,6 @@
-import pytest
 from unittest.mock import MagicMock, patch
+
+import pytest
 
 from src.calculator import add, multiply, subtract
 from src.logger import create_logger
