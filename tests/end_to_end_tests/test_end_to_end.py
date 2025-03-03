@@ -59,13 +59,18 @@ class TestEndToEnd:
         [
             pytest.param("add", 5, 3, 8, False, id="addition_below_threshold"),
             pytest.param(
-                "multiply", 6, 2, 12, True, id="multiplication_above_threshold"
+                "multiply",
+                6,
+                2,
+                12,
+                True,
+                id="multiplication_above_threshold",
             ),
             pytest.param("subtract", 15, 5, 10, False, id="subtraction_at_threshold"),
         ],
     )
     @patch("pathlib.Path.open", new_callable=MagicMock)
-    def test_multiple_operations_workflow(  # noqa: PLR0913
+    def test_multiple_operations_workflow(
         self,
         mocked_file: MagicMock,
         operation: str,

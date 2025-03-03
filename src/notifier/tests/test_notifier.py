@@ -2,8 +2,8 @@
 
 import io
 import unittest
-from unittest.mock import patch
 from typing import Any
+from unittest.mock import patch
 
 from src.notifier.api import create_notifier, notify
 
