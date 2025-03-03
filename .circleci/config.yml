@@ -29,7 +29,7 @@ jobs:
           command: |
             . .venv/bin/activate
             mkdir -p test-results/unit
-            pytest tests/unit_tests/ --cov=src --junitxml=test-results/unit/results.xml
+            pytest src/*/tests/ --cov=src --junitxml=test-results/unit/results.xml
             coverage report -m
             coverage html -d coverage-unit
       - store_test_results:
@@ -119,7 +119,7 @@ jobs:
           command: |
             . .venv/bin/activate
             mkdir -p test-results/all
-            pytest --cov=src tests/ --junitxml=test-results/all/results.xml
+            pytest --cov=src src/*/tests/ tests/integration_tests/ tests/end_to_end_tests/ --junitxml=test-results/all/results.xml
             coverage report -m
             coverage html -d coverage-report
       - store_test_results:
