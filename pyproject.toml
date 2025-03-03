@@ -94,6 +94,7 @@ ignore = [
 [tool.coverage.run]
 source = ["src"]
 branch = true
+omit = ["*/tests/*"]
 
 [tool.coverage.report]
 exclude_lines = [

@@ -28,9 +28,8 @@ jobs:
           name: Run unit tests
           command: |
             . .venv/bin/activate
-            mkdir -p test-results
-            mkdir -p coverage-unit
-            pytest tests/unit_tests/ --cov=src --junitxml=test-results/unit_tests.xml
+            mkdir -p test-results/unit
+            pytest tests/unit_tests/ --cov=src --junitxml=test-results/unit/results.xml
             coverage report -m
             coverage html -d coverage-unit
       - store_test_results:
@@ -59,9 +58,8 @@ jobs:
           name: Run integration tests
           command: |
             . .venv/bin/activate
-            mkdir -p test-results
-            mkdir -p coverage-integration
-            pytest tests/integration_tests/ --cov=src --junitxml=test-results/integration_tests.xml
+            mkdir -p test-results/integration
+            pytest tests/integration_tests/ --cov=src --junitxml=test-results/integration/results.xml
             coverage report -m
             coverage html -d coverage-integration
       - store_test_results:
@@ -90,9 +88,8 @@ jobs:
           name: Run end-to-end tests
           command: |
             . .venv/bin/activate
-            mkdir -p test-results
-            mkdir -p coverage-e2e
-            pytest tests/end_to_end_tests/ --cov=src --junitxml=test-results/end_to_end_tests.xml
+            mkdir -p test-results/e2e
+            pytest tests/end_to_end_tests/ --cov=src --junitxml=test-results/e2e/results.xml
             coverage report -m
             coverage html -d coverage-e2e
       - store_test_results:
@@ -121,10 +118,12 @@ jobs:
           name: Run all tests and generate coverage report
           command: |
             . .venv/bin/activate
-            mkdir -p coverage-report
-            pytest --cov=src tests/
+            mkdir -p test-results/all
+            pytest --cov=src tests/ --junitxml=test-results/all/results.xml
             coverage report -m
             coverage html -d coverage-report
+      - store_test_results:
+          path: test-results
       - store_artifacts:
           path: coverage-report
           destination: coverage-report
