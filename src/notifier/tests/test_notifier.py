@@ -1,11 +1,10 @@
 """Unit tests for Notifier component."""
 
-import unittest
-from unittest.mock import patch, call
 import io
-import sys
+import unittest
+from unittest.mock import patch
 
-from src.notifier.api import notify, create_notifier
+from src.notifier.api import create_notifier, notify
 
 
 class TestNotifier(unittest.TestCase):

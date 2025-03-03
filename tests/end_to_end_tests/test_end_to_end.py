@@ -1,8 +1,7 @@
+import pytest
 from unittest.mock import MagicMock, patch
 
-import pytest
-
-from src.calculator import add, subtract, multiply
+from src.calculator import add, multiply, subtract
 from src.logger import create_logger
 from src.notifier import create_notifier
 
@@ -18,7 +17,8 @@ class TestEndToEnd:
         """
         Test the complete calculation, logging, and notification workflow.
 
-        This test simulates the full scenario of a user using the calculator, the system logging the operations.
+        This test simulates the full scenario of a user using the calculator,
+        the system logging the operations.
         """
         mock_datetime.now.return_value.strftime.return_value = "2025-02-13 15:30:00"
 

@@ -1,6 +1,6 @@
 """Unit tests for Calculator component."""
 
-from src.calculator.api import add, subtract, multiply
+from src.calculator.api import add, multiply, subtract
 
 
 def test_addition():

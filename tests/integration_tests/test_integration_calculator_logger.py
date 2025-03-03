@@ -2,7 +2,7 @@
 
 from unittest.mock import MagicMock, patch
 
-from src.calculator import add, subtract, multiply
+from src.calculator import add, multiply, subtract
 from src.logger import create_logger
 
 
