@@ -70,25 +70,55 @@ notify("Important message!")
 
 ## Testing
 
+### Running Tests
+
 Run all tests:
 ```bash
 pytest
 ```
 
-Run specific test file:
+Run component unit tests:
 ```bash
+# Run calculator unit tests
+pytest src/calculator/tests/
+
+# Run logger unit tests
+pytest src/logger/tests/
+
+# Run notifier unit tests
+pytest src/notifier/tests/
+```
+
+Run a specific test file:
+```bash
+# Run a specific unit test file
 pytest src/calculator/tests/test_calculator.py
+
+# Run a specific integration test file
+pytest tests/integration_tests/test_integration_calculator_logger.py
+
+# Run a specific end-to-end test file
+pytest tests/end_to_end_tests/test_end_to_end.py
 ```
 
-Run integration tests:
+Run tests by type:
 ```bash
+# Run all integration tests
 pytest tests/integration_tests/
+
+# Run all end-to-end tests
+pytest tests/end_to_end_tests/
 ```
 
-Run tests with coverage:
-```bash
-pytest --cov=src --cov-report=term-missing
-```
+### Test Organization
+
+This project follows a structured approach to testing:
+
+1. **Unit Tests**: Located within each component's directory (`src/<component>/tests/`), these tests verify the functionality of individual components in isolation.
+
+2. **Integration Tests**: Located in the top-level `tests/integration_tests/` directory, these tests verify the interactions between components.
+
+3. **End-to-End Tests**: Located in the top-level `tests/end_to_end_tests/` directory, these tests verify complete workflows across the entire system.
 
 ## Development
 

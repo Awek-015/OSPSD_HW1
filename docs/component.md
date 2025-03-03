@@ -74,6 +74,7 @@ src/
 │   ├── __init__.py
 │   ├── api.py
 │   ├── calculator.py
+│   ├── pyproject.toml
 │   └── tests/
 │       ├── __init__.py
 │       └── test_calculator.py
@@ -81,6 +82,7 @@ src/
 │   ├── __init__.py
 │   ├── api.py
 │   ├── logger.py
+│   ├── pyproject.toml
 │   └── tests/
 │       ├── __init__.py
 │       └── test_logger.py
@@ -88,6 +90,7 @@ src/
     ├── __init__.py
     ├── api.py
     ├── notifier.py
+    ├── pyproject.toml
     └── tests/
         ├── __init__.py
         └── test_notifier.py
@@ -105,5 +108,15 @@ tests/
     ├── __init__.py
     └── test_end_to_end.py
 ```
+
+### Testing Organization
+
+This project follows a structured approach to testing:
+
+1. **Unit Tests**: Located within each component's directory (`src/<component>/tests/`), these tests verify the functionality of individual components in isolation.
+
+2. **Integration Tests**: Located in the top-level `tests/integration_tests/` directory, these tests verify the interactions between components.
+
+3. **End-to-End Tests**: Located in the top-level `tests/end_to_end_tests/` directory, these tests verify complete workflows across the entire system.
 
 This structure ensures that each component is self-contained with its own implementation, API, and unit tests, while integration and end-to-end tests verify the interactions between components. 
