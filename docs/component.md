@@ -119,4 +119,4 @@ This project follows a structured approach to testing:
 
 3. **End-to-End Tests**: Located in the top-level `tests/end_to_end_tests/` directory, these tests verify complete workflows across the entire system.
 
-This structure ensures that each component is self-contained with its own implementation, API, and unit tests, while integration and end-to-end tests verify the interactions between components. 
+This structure ensures that each component is self-contained with its own implementation, API, and unit tests, while integration and end-to-end tests verify the interactions between components.
